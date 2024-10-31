@@ -1,0 +1,633 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LEIHS Inventory Management",
+    "description": "This is a Custom Connector for you with the LEIHS Resource Booking System. For this connect to work you'll need an existing instance of LEIHS (https://github.com/leihs/leihs), with a valid admin API token (Admin->Users->User->API Token)",
+    "version": "1.0"
+  },
+  "host": "example.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/admin/users/": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Return a user(s) account from LEIHS",
+        "operationId": "GetUser",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "per-page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "default": 12,
+            "enum": [
+              12,
+              25,
+              50,
+              100,
+              250,
+              500,
+              1000
+            ],
+            "x-ms-summary": "Number of accounts returned per page",
+            "description": "Select the maximum number of accounts that should be returned per page",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "name": "account_enabled",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-ms-visibility": "advanced",
+            "x-ms-summary": "Account Enabled",
+            "description": "Return accounts that are enabled/disabled. Options are \"yes\", \"no\" & \"null\"",
+            "enum": [
+              "yes",
+              "no"
+            ]
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "default": 1,
+            "x-ms-visibility": "advanced",
+            "x-ms-summary": "Page to return",
+            "description": "Select which page of results to return"
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Search Term",
+            "description": "Enter a search term. This can be any LEIHS searchable element",
+            "x-ms-visibility": "important"
+          },
+          {
+            "name": "organization",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Organization Name",
+            "description": "Enter an organization name.",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Additional fields to return in search",
+            "description": "In JSON format. eg [\"badge_id\", \"city\",\"phone\"]",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          }
+        ],
+        "description": "Get user account details from an LEIHS server"
+      },
+      "post": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Add a User account to an LEIHS Server",
+        "description": "Add a user account",
+        "operationId": "AddUser",
+        "parameters": [
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "description": "Login name",
+                  "title": "Login ID",
+                  "x-ms-visibility": "advanced"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Email Address",
+                  "title": "Email Address",
+                  "x-ms-visibility": "advanced"
+                },
+                "img32_url": {
+                  "type": "string",
+                  "description": "URL to profile image",
+                  "title": "URL ro Profile image",
+                  "x-ms-visibility": "advanced"
+                },
+                "account_enabled": {
+                  "type": "boolean",
+                  "description": "Account enabled",
+                  "title": "Account enabled",
+                  "enum": [
+                    true,
+                    false
+                  ],
+                  "x-ms-visibility": "advanced",
+                  "default": false
+                },
+                "lastname": {
+                  "type": "string",
+                  "description": "Lastname",
+                  "title": "Lastname",
+                  "x-ms-visibility": "advanced"
+                },
+                "org_id": {
+                  "type": "string",
+                  "description": "Organisation ID (usually the same as Login name)",
+                  "title": "Organization ID",
+                  "x-ms-visibility": "advanced"
+                },
+                "firstname": {
+                  "type": "string",
+                  "description": "Firstname",
+                  "title": "Firstname",
+                  "x-ms-visibility": "advanced"
+                },
+                "badge_id": {
+                  "type": "string",
+                  "description": "Badge ID",
+                  "title": "Badge ID",
+                  "x-ms-visibility": "advanced"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "Address",
+                  "title": "Address",
+                  "x-ms-visibility": "advanced"
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "Phone",
+                  "title": "Phone",
+                  "x-ms-visibility": "advanced"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "City",
+                  "title": "City",
+                  "x-ms-visibility": "advanced"
+                },
+                "zip": {
+                  "type": "string",
+                  "description": "Zip/Post Code",
+                  "title": "Zip/Post Code",
+                  "x-ms-visibility": "advanced"
+                },
+                "organization": {
+                  "type": "string",
+                  "description": "Organization",
+                  "title": "Organization",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "required": [
+                "account_enabled",
+                "login"
+              ]
+            }
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/admin/users/{User_ID}/transfer/{Transfer_ID}": {
+      "delete": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Delete a User account from LEIHS",
+        "description": "Delete a user from an LEIHS Server",
+        "operationId": "DeleteUser",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          },
+          {
+            "name": "User_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID of user to delete (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "User to delete",
+            "x-ms-visibility": "important"
+          },
+          {
+            "name": "Transfer_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID of user to transfer booking history to  (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "Transfer History to:",
+            "x-ms-visibility": "advanced"
+          }
+        ]
+      }
+    },
+    "/admin/users/{User_ID}": {
+      "patch": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Update a User account in an LEIHS server",
+        "operationId": "UpdateUser",
+        "description": "Update an account in LEIHS",
+        "parameters": [
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          },
+          {
+            "name": "User_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID of user to update (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "User to update",
+            "x-ms-visibility": "important"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "description": "login",
+                  "title": "Login ID"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "email",
+                  "title": "Email address"
+                },
+                "img32_url": {
+                  "type": "string",
+                  "description": "img32_url",
+                  "title": "URL to Profile image"
+                },
+                "account_enabled": {
+                  "type": "boolean",
+                  "description": "account_enabled",
+                  "title": "Account enabled",
+                  "enum": [
+                    true,
+                    false
+                  ],
+                  "x-ms-visibility": "advanced",
+                  "default": false
+                },
+                "lastname": {
+                  "type": "string",
+                  "description": "lastname",
+                  "title": "Lastname"
+                },
+                "org_id": {
+                  "type": "string",
+                  "description": "org_id",
+                  "title": "Organization ID"
+                },
+                "firstname": {
+                  "type": "string",
+                  "description": "firstname",
+                  "title": "Firstname"
+                },
+                "badge_id": {
+                  "type": "string",
+                  "description": "badge_id",
+                  "title": "Badge ID",
+                  "x-ms-visibility": "advanced"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "address",
+                  "title": "Address",
+                  "x-ms-visibility": "advanced"
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "phone",
+                  "title": "Phone"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "city",
+                  "title": "City",
+                  "x-ms-visibility": "advanced"
+                },
+                "zip": {
+                  "type": "string",
+                  "description": "zip",
+                  "title": "Zip/Post code"
+                },
+                "organization": {
+                  "type": "string",
+                  "description": "organization",
+                  "title": "Organization"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "id",
+                  "title": "ID",
+                  "x-ms-visibility": "internal",
+                  "default": "@path('User_ID')"
+                }
+              },
+              "required": [
+                "account_enabled",
+                "id"
+              ]
+            }
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/admin/groups/": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Return a group(s) account from LEIHS",
+        "description": "Get Groups details from an LEIHS server",
+        "operationId": "GetGroups",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "default": 1,
+            "x-ms-visibility": "advanced",
+            "x-ms-summary": "Page to return",
+            "description": "Select which page of results to return"
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Search Term",
+            "description": "Enter a search term. This can be any LEIHS searchable element",
+            "x-ms-visibility": "important"
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "default": 12,
+            "enum": [
+              12,
+              25,
+              50,
+              100,
+              250,
+              500,
+              1000
+            ],
+            "x-ms-summary": "Number of accounts returned per page",
+            "description": "Select the maximum number of accounts that should be returned per page",
+            "x-ms-visibility": "advanced"
+          }
+        ]
+      }
+    },
+    "/admin/groups/{Group_ID}/users/{User_ID}": {
+      "delete": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Remove User account to a Group in an LEIHS server",
+        "operationId": "RemoveGroupUser",
+        "x-ms-visibility": "important",
+        "description": "Remove a user account to an LEIHS Group",
+        "parameters": [
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          },
+          {
+            "name": "Group_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Group ID of user to remove (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "User to update",
+            "x-ms-visibility": "important"
+          },
+          {
+            "name": "User_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID of user to remove (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "User to update",
+            "x-ms-visibility": "important"
+          }
+        ]
+      },
+      "put": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Add User account to a Group in an LEIHS server",
+        "operationId": "AddGroupUser",
+        "x-ms-visibility": "important",
+        "description": "Add a user account to an LEIHS Group",
+        "parameters": [
+          {
+            "name": "Server_URL",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the URL of the LEIHS server.",
+            "x-ms-summary": "LEIHS Server URL"
+          },
+          {
+            "name": "API_Token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "important",
+            "format": "",
+            "description": "Enter the API Token from LEIHS.",
+            "x-ms-summary": "API Token"
+          },
+          {
+            "name": "Group_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Group ID of user to add (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "User to update",
+            "x-ms-visibility": "important"
+          },
+          {
+            "name": "User_ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID of user to update (in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)",
+            "x-ms-summary": "User to update",
+            "x-ms-visibility": "important"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {},
+  "security": [],
+  "tags": []
+}
